@@ -1,0 +1,522 @@
+{% load static %}
+{% static "images" as baseurl %}
+<!DOCTYPE html>
+<html lang="en">
+<!-- Basic -->
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Site Metas -->
+    <title>coolstyles - Template</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- Site Icons -->
+    <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <!-- Site CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" href="{% static 'css/responsive.css' %}">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+    <!--[if lt IE 9]>
+      <script src="{% static 'https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js'  %}"></script>
+      <script src="{% static 'https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js'  %}"></script>
+    <![endif]-->
+    <style>
+        #overlay {
+            position: fixed;
+            display: none;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
+          }
+          
+          #text{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 50px;
+            color: white;
+            transform: translate(-50%,-50%);
+            -ms-transform: translate(-50%,-50%);
+          }
+    </style>
+
+    <script>
+        var total=0
+        function getTotal(p, q, id){
+            console.log("calculating");
+            console.log(id);
+            var tag = document.getElementById(id);
+            tag.innerHTML = p * q;
+            total = total+(p*q)
+        }
+        function setBigTotal(){
+            var bigtotal = document.getElementById('bigtotal');
+            bigtotal.innerHTML = total + ' R.s';
+        }
+        function RemoveCartItem(cartitem_id){
+            console.log(cartitem_id + "is the cartitem id");
+            id_to_send={
+                'remove_button': true,
+                'cartitem_id':cartitem_id,
+                'csrfmiddlewaretoken': '{{csrf_token}}'
+            }
+            $.post(url="{% url 'cart' %}", data=id_to_send, function(data, status){
+                console.log(status);
+                if(status=="success")
+                {
+                    $('#' + cartitem_id).hide(); 
+                }
+            });
+        }
+        
+    </script>
+</head>
+
+<body>
+    <div id="overlay" onclick="off()">
+        <div id="text">Updated Cart !</div>
+      </div>
+    <!-- Start Main Top -->
+    <!-- <div class="main-top">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="custom-select-box">
+                        <select id="basic" class="selectpicker show-tick form-control" data-placeholder="$ USD">
+							<option>¥ JPY</option>
+							<option>$ USD</option>
+							<option>€ EUR</option>
+						</select>
+                    </div>
+                    <div class="right-phone-box">
+                        <p>Call US :- <a href="#"> +11 900 800 100</a></p>
+                    </div>
+                    <div class="our-link">
+                        <ul>
+                            <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
+                            <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
+                            <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+					<div class="login-box">
+						<select id="basic" class="selectpicker show-tick form-control" data-placeholder="Sign In">
+							<option>Register Here</option>
+							<option>Sign In</option>
+						</select>
+					</div>
+                    <div class="text-slid-box">
+                        <div id="offer-box" class="carouselTicker">
+                            <ul class="offer-box">
+                                <li>
+                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT80
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> 50% - 80% off on shoes
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Off 10%! shop now
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Off 10%! shop jackets
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> 50% - 80% off on denims
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT30
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now 
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- End Main Top -->
+
+    <!-- Start Main Top -->
+  
+    <!-- End Main Top -->
+
+    {% with "checkout" as calling_page %}
+        {% include 'header.html' %}
+    {% endwith %}
+
+    <!-- Start Top Search -->
+    {% include "search.html" %}
+    <!-- End Top Search -->
+
+    <!-- Start All Title Box -->
+    <div class="all-title-box">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Cart</h2>
+                    <ul class="shoes">
+                        <li class="shoes-item"><a href="#">Shop</a></li>
+                        <li class="shoes-item active">Cart</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End All Title Box -->
+
+    <!-- Start Cart  -->
+    <div class="cart-box-main">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="table-main table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Images</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                {% for cart_item in cart_items %}
+                                <tr id='{{cart_item.id}}'>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+									<img class="img-fluid" src="{{ cart_item.product.img.url }}" alt="" />
+								</a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+									{{cart_item.product.name}}
+								</a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>{{cart_item.product.price}}</p>
+                                    </td>
+                                    <td class="quantity-box"><input name="qtybox" id="qtybox{{cart_item.id}}" type="number" size="4" value="{{cart_item.qty}}" min="0" step="1" class="c-input-text qty text"></td>
+                                    <td class="total-pr">
+                                        <p id="total{{cart_item.id}}">
+                                            <script>
+                                                getTotal("{{cart_item.product.price}}", "{{cart_item.qty}}", "total{{cart_item.id}}");
+                                            </script>
+                                        </p>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a class="removebtn" href="#" id="cart_item{{cart_item.id}}" onclick="RemoveCartItem('{{cart_item.id}}'); return false">
+									<i class="fas fa-times"></i>
+								</a>
+                                    </td>
+                                </tr>
+                                {%endfor%}
+                                <!-- <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+									<img class="img-fluid" src="{% static 'images/img-pro-02.jpg'  %}" alt="" />
+								</a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+									Lorem ipsum dolor sit amet
+								</a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>$ 60.0</p>
+                                    </td>
+                                    <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
+                                    <td class="total-pr">
+                                        <p>$ 80.0</p>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a href="#">
+									<i class="fas fa-times"></i>
+								</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="thumbnail-img">
+                                        <a href="#">
+									<img class="img-fluid" src="{% static 'images/img-pro-03.jpg'  %}" alt="" />
+								</a>
+                                    </td>
+                                    <td class="name-pr">
+                                        <a href="#">
+									Lorem ipsum dolor sit amet
+								</a>
+                                    </td>
+                                    <td class="price-pr">
+                                        <p>$ 30.0</p>
+                                    </td>
+                                    <td class="quantity-box"><input type="number" size="4" value="1" min="0" step="1" class="c-input-text qty text"></td>
+                                    <td class="total-pr">
+                                        <p>$ 80.0</p>
+                                    </td>
+                                    <td class="remove-pr">
+                                        <a href="#">
+									<i class="fas fa-times"></i>
+								</a>
+                                    </td>
+                                </tr> -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <!-- <div class="col-lg-6 col-sm-6">
+                    <div class="coupon-box">
+                        <div class="input-group input-group-sm">
+                            <input class="form-control" placeholder="Enter your coupon code" aria-label="Coupon code" type="text">
+                            <div class="input-group-append">
+                                <button class="btn btn-theme" type="button">Apply Coupon</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+                <div class="col-lg-6 col-sm-6">
+                    <div class="update-box">
+                        <input value="Update Cart" type="submit" id="updatebtn">
+                        <!-- <button>Update Cart</button> -->
+                        <div class="col-12 d-flex shopping-box"><a href="{% url 'update-order' %}" class="ml-auto btn hvr-hover">Checkout</a> </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row my-5">
+                <div class="col-lg-8 col-sm-12"></div>
+                <div class="col-lg-4 col-sm-12">
+                    <!-- <div class="order-box">
+                        <h3>Order summary</h3>
+                        <div class="d-flex">
+                            <h4>Sub Total</h4>
+                            <div class="ml-auto font-weight-bold"> $ 130 </div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Discount</h4>
+                            <div class="ml-auto font-weight-bold"> $ 40 </div>
+                        </div>
+                        <hr class="my-1">
+                        <div class="d-flex">
+                            <h4>Coupon Discount</h4>
+                            <div class="ml-auto font-weight-bold"> $ 10 </div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Tax</h4>
+                            <div class="ml-auto font-weight-bold"> $ 2 </div>
+                        </div>
+                        <div class="d-flex">
+                            <h4>Shipping Cost</h4>
+                            <div class="ml-auto font-weight-bold"> Free </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex gr-total">
+                            <h5>Grand Total</h5>
+                            <div class="ml-auto h5"> $ 388 </div>
+                        </div>
+                        <hr> </div> -->
+                </div>
+                <!-- <div class="col-12 d-flex shopping-box"><a href="checkout.html" class="ml-auto btn hvr-hover">Checkout</a> </div> -->
+            </div>
+
+        </div>
+    </div>
+    <!-- End Cart -->
+
+    <!-- Start Instagram Feed  -->
+    <!-- <div class="instagram-box">
+        <div class="main-instagram owl-carousel owl-theme">
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-01.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-02.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-03.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-04.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-05.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-06.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-07.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-08.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-09.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <div class="ins-inner-box">
+                    <img src="{% static 'images/instagram-img-05.jpg'  %}" alt="" />
+                    <div class="hov-in">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <!-- End Instagram Feed  -->
+
+
+ <!-- Footer Starts Here -->
+ <div class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="logo">
+            <img src="{% static 'assets/images/header-logo.png' %}" alt="">
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="footer-menu">
+            <ul>
+              <li><a href="#">Home</a></li>
+              <li><a href="#">Help</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">How It Works ?</a></li>
+              <li><a href="#">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-md-12">
+          <div class="social-icons">
+            <ul>
+              <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+              <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+              <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+              <li><a href="#"><i class="fa fa-rss"></i></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Footer Ends Here -->
+
+
+  <!-- Sub Footer Starts Here -->
+  <div class="sub-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="copyright-text">
+            <p>Copyright &copy; 2019 Company Name 
+              
+              - Design: <a rel="nofollow" href="{% static 'https://www.facebook.com/tooplate' %}">Tooplate</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Sub Footer Ends Here -->
+
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+  <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+  <!-- Additional Scripts -->
+  <script src="{% static 'assets/js/custom.js' %}"></script>
+  <script src="{% static 'assets/js/owl.js' %}"></script>
+
+
+  <script language = "{% static 'text/Javascript' %}"> 
+    cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
+    function clearField(t){                   //declaring the array outside of the
+    if(! cleared[t.id]){                      // function makes it static and global
+        cleared[t.id] = 1;  // you could use true and false, but that's more typing
+        t.value='';         // with more chance of typos
+        t.style.color='#fff';
+        }
+    }
+  </script>
+
+
+</body>
+
+</html>
+
